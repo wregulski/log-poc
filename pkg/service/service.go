@@ -1,15 +1,19 @@
 package service
 
+import "github.com/wregulski/log-poc/pkg/log"
+
 type Echo interface {
 	Echo() string
 }
 
 type Services struct {
-	Echo Echo
+	logger log.Logger
+	Echo   Echo
 }
 
-func NewServices() *Services {
+func NewServices(lf log.LoggerFactory) *Services {
 	return &Services{
-		Echo: NewEchoService(),
+		logger: lf.NewLogger("services"),
+		Echo:   NewEchoService(),
 	}
 }

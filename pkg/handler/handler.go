@@ -2,16 +2,19 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/wregulski/log-poc/pkg/log"
 	"github.com/wregulski/log-poc/pkg/service"
 )
 
 type Handler struct {
 	services *service.Services
+	logger   log.Logger
 }
 
-func NewHandler(services *service.Services) *Handler {
+func NewHandler(services *service.Services, lf log.LoggerFactory) *Handler {
 	return &Handler{
 		services: services,
+		logger:   lf.NewLogger("handler"),
 	}
 }
 
