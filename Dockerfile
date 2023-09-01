@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine as build
+FROM --platform=$TARGETPLATFORM golang:1.21-alpine as build
 
 # Set shell for this stage with proper pipefall
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     -o log-poc ./cmd/main.go
 
 # App final stage
-FROM alpine as app
+FROM --platform=$TARGETPLATFORM alpine as app
 
 # Set shell for this stage with proper pipefall
 SHELL ["/bin/sh", "-o", "pipefail", "-c"]
