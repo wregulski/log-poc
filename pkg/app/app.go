@@ -25,6 +25,8 @@ func Run() {
 		panic(err)
 	}
 
+	log.Info("app has been started!")
+
 	if err := srv.Shutdown(context.Background()); err != nil {
 		log.Criticalf("error shutting down server: %s", err)
 		panic(err)

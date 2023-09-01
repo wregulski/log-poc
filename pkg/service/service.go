@@ -4,6 +4,7 @@ import "github.com/wregulski/log-poc/pkg/log"
 
 type Echo interface {
 	Echo() string
+	ErrorEcho() string
 }
 
 type Services struct {
@@ -12,8 +13,9 @@ type Services struct {
 }
 
 func NewServices(lf log.LoggerFactory) *Services {
+	logger := lf.NewLogger("services")
 	return &Services{
-		logger: lf.NewLogger("services"),
-		Echo:   NewEchoService(),
+		logger: logger,
+		Echo:   NewEchoService(logger),
 	}
 }

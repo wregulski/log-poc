@@ -34,6 +34,5 @@ RUN apk update && \
 # Copy binary and config files from /build
 # to root folder of alpine container.
 COPY --from=build ["/build/log-poc", "/"]
-COPY --from=build ["/build/Procfile", "/"]
 
 CMD ["/log-poc"]
