@@ -10,5 +10,5 @@ func DefaultLoggerFactory() LoggerFactory {
 	lvl := viper.GetString(config.EnvLoggingLevel)
 	appName := viper.GetString(config.EnvApplicationName)
 
-	return NewLogrusLoggerFactory(appName, LevelFromString(lvl))
+	return NewCustomLoggerFactory(appName, LevelFromString(lvl))
 }

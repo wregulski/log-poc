@@ -2,60 +2,54 @@ package log
 
 import "github.com/sirupsen/logrus"
 
-type logrusAdapter struct {
-	logger *logrus.Logger
+type CustomLogrus struct {
+	entry *logrus.Entry
 }
 
-func NewLogrusAdapter(logger *logrus.Logger) Logger {
-	return &logrusAdapter{
-		logger: logger,
-	}
+func (cl *CustomLogrus) Trace(msg string) {
+	cl.entry.Trace(msg)
 }
 
-func (la *logrusAdapter) Trace(msg string) {
-	la.logger.Trace(msg)
+func (cl *CustomLogrus) Tracef(format string, params ...interface{}) {
+	cl.entry.Tracef(format, params...)
 }
 
-func (la *logrusAdapter) Tracef(format string, params ...interface{}) {
-	la.logger.Tracef(format, params...)
+func (cl *CustomLogrus) Debug(msg string) {
+	cl.entry.Debug(msg)
 }
 
-func (la *logrusAdapter) Debug(msg string) {
-	la.logger.Debug(msg)
+func (cl *CustomLogrus) Debugf(format string, params ...interface{}) {
+	cl.entry.Debugf(format, params...)
 }
 
-func (la *logrusAdapter) Debugf(format string, params ...interface{}) {
-	la.logger.Debugf(format, params...)
+func (cl *CustomLogrus) Info(msg string) {
+	cl.entry.Info(msg)
 }
 
-func (la *logrusAdapter) Info(msg string) {
-	la.logger.Info(msg)
+func (cl *CustomLogrus) Infof(format string, params ...interface{}) {
+	cl.entry.Infof(format, params...)
 }
 
-func (la *logrusAdapter) Infof(format string, params ...interface{}) {
-	la.logger.Infof(format, params...)
+func (cl *CustomLogrus) Warn(msg string) {
+	cl.entry.Warn(msg)
 }
 
-func (la *logrusAdapter) Warn(msg string) {
-	la.logger.Warn(msg)
+func (cl *CustomLogrus) Warnf(format string, params ...interface{}) {
+	cl.entry.Warnf(format, params...)
 }
 
-func (la *logrusAdapter) Warnf(format string, params ...interface{}) {
-	la.logger.Warnf(format, params...)
+func (cl *CustomLogrus) Error(msg string) {
+	cl.entry.Error(msg)
 }
 
-func (la *logrusAdapter) Error(msg string) {
-	la.logger.Error(msg)
+func (cl *CustomLogrus) Errorf(format string, params ...interface{}) {
+	cl.entry.Errorf(format, params...)
 }
 
-func (la *logrusAdapter) Errorf(format string, params ...interface{}) {
-	la.logger.Errorf(format, params...)
+func (cl *CustomLogrus) Critical(msg string) {
+	cl.entry.Fatal(msg)
 }
 
-func (la *logrusAdapter) Critical(msg string) {
-	la.logger.Fatal(msg)
-}
-
-func (la *logrusAdapter) Criticalf(format string, params ...interface{}) {
-	la.logger.Fatalf(format, params...)
+func (cl *CustomLogrus) Criticalf(format string, params ...interface{}) {
+	cl.entry.Fatalf(format, params...)
 }

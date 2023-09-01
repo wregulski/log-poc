@@ -10,6 +10,7 @@ func NewViperConfig() *Config {
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	setLoggingDefaults()
+	setApplicationName()
 	return &Config{}
 }
 

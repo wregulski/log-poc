@@ -2,35 +2,42 @@ package log
 
 import "github.com/sirupsen/logrus"
 
-type logrusLoggerFactory struct {
-	application string
-	logger      *logrus.Logger
+type CustomLoggerFactory struct {
+	Application string
+	Logger      *logrus.Logger
 }
 
-func NewLogrusLoggerFactory(appName string, level Level) LoggerFactory {
+func NewCustomLoggerFactory(appName string, level Level) LoggerFactory {
 	logger := logrus.New()
 	logger.SetLevel(toLogrusLevel(level))
+	logger.SetFormatter(&logrus.JSONFormatter{
+		FieldMap: logrus.FieldMap{
+			logrus.FieldKeyTime: "@timestamp",
+		}})
 
-	return &logrusLoggerFactory{
-		application: appName,
-		logger:      logger,
+	return &CustomLoggerFactory{
+		Application: appName,
+		Logger:      logger,
 	}
 }
 
-func (lf *logrusLoggerFactory) NewLogger(name string) Logger {
-	logger := logrus.NewEntry(lf.logger).
-		WithField("application", lf.application).
-		WithField("name", name)
-
-	return NewLogrusAdapter(logger.Logger)
+func (lf *CustomLoggerFactory) NewLogger(name string) Logger {
+	entry := logrus.NewEntry(lf.Logger).
+		WithFields(logrus.Fields{
+			"application": lf.Application,
+			"name":        name,
+		})
+	return &CustomLogrus{
+		entry: entry,
+	}
 }
 
-func (lf *logrusLoggerFactory) Level() Level {
-	return fromLogrusLevel(lf.logger.GetLevel())
+func (lf *CustomLoggerFactory) Level() Level {
+	return fromLogrusLevel(lf.Logger.GetLevel())
 }
 
-func (lf *logrusLoggerFactory) SetLevel(level Level) {
-	lf.logger.SetLevel(toLogrusLevel(level))
+func (lf *CustomLoggerFactory) SetLevel(level Level) {
+	lf.Logger.SetLevel(toLogrusLevel(level))
 }
 
 func fromLogrusLevel(level logrus.Level) Level {
