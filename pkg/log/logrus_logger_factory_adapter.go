@@ -12,7 +12,9 @@ func NewCustomLoggerFactory(appName string, level Level) LoggerFactory {
 	logger.SetLevel(toLogrusLevel(level))
 	logger.SetFormatter(&logrus.JSONFormatter{
 		FieldMap: logrus.FieldMap{
-			logrus.FieldKeyTime: "@timestamp",
+			logrus.FieldKeyTime:  "@timestamp",
+			logrus.FieldKeyLevel: "log.level",
+			logrus.FieldKeyMsg:   "message",
 		}})
 
 	return &CustomLoggerFactory{
@@ -25,7 +27,7 @@ func (lf *CustomLoggerFactory) NewLogger(name string) Logger {
 	entry := logrus.NewEntry(lf.Logger).
 		WithFields(logrus.Fields{
 			"application": lf.Application,
-			"name":        name,
+			"log.logger":  name,
 		})
 	return &CustomLogrus{
 		entry: entry,
